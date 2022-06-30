@@ -46,15 +46,16 @@ jobs:
       with:
         ref: gh-pages  
 
-    - name: Push changes to gh-pages
-      run: git push -u origin gh-pages 
-    # - name: Commit files
-    #   run: |
-    #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --local user.name "github-actions[bot]"
-    #     git commit -m "Add changes" -a
-    # - name: Push changes
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: gh-pages        
+    - name: Commit files
+      env:
+        CI_COMMIT_MESSAGE: push package to gh-pages
+        CI_COMMIT_AUTHOR:  publish-helm
+      run: |
+        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+        git config --global user.email "eche21@users.noreply.github.com"
+        git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages        
