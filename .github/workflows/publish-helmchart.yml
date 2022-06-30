@@ -9,53 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: Make directory to host app
-      run: |
-        cd ..
-        mkdir helmapp
-        pwd
-        ls
-    - name: Package Helm Charts
-      run: | 
-        helm package $GITHUB_WORKSPACE/handon/node-web-app
-    - name: Move package to helmapp
-      run: |
-        pwd
-        ls
-        mv /home/runner/work/helm-chart-demo/helm-chart-demo/*.tgz  /home/runner/work/helm-chart-demo/helmapp        
-    - name: list contents of helmapp
-      run: |
-        cd /home/runner/work/helm-chart-demo/helmapp
-        ls
-    - name: Create index file
-      run: helm repo index /home/runner/work/helm-chart-demo/helmapp
-    - name: list contents of helmapp
-      run: |
-        cd /home/runner/work/helm-chart-demo/helmapp
-        ls      
-    - name: create a branch in my repo
-      uses: peterjgrainger/action-create-branch@v2.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish Helm charts
+      uses: stefanprodan/helm-gh-pages@master
       with:
-        branch: 'gh-pages'
-#        sha: '${{ github.event.pull_request.head.sha }}'
-    - name: checkout gh-pages branch
-      uses: actions/checkout@v3
-      with:
-        ref: gh-pages  
-
-    - name: Commit files
-      env:
-        CI_COMMIT_MESSAGE: push package to gh-pages
-        CI_COMMIT_AUTHOR:  publish-helm
-      run: |
-        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-        git config --global user.email "eche21@users.noreply.github.com"
-        git commit -a -m "${{ env.CI_COMMIT_MESSAGE }}"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: gh-pages        
+        token: ${{ secrets.GITHUB_TOKEN }}
