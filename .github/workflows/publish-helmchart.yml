@@ -9,35 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-    - name: Make directory to host app
-      run: |
-        cd ..
-        mkdir helmapp
-        pwd
-        ls
-    - name: Package Helm Charts
-      run: | 
-        helm package $GITHUB_WORKSPACE/handon/node-web-app
-    - name: Move package to helmapp
-      run: |
-        pwd
-        ls
-        mv /home/runner/work/demo-publish-helm/demo-publish-helm/*.tgz  /home/runner/work/demo-publish-helm/helmapp        
-    - name: list contents of helmapp
-      run: |
-        cd /home/runner/work/demo-publish-helm/helmapp
-        ls
-    - name: Create index file
-      run: helm repo index /home/runner/work/demo-publish-helm/helmapp
-    - name: list contents of helmapp
-      run: |
-        cd /home/runner/work/demo-publish-helm/helmapp
-        ls      
-    - name: create a branch in my repo
-      uses: peterjgrainger/action-create-branch@v2.2.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Publish Helm charts to the gh-pages
+      uses: stefanprodan/helm-gh-pages@master
       with:
-        branch: 'branch1'
-#        sha: '${{ github.event.pull_request.head.sha }}'
+        token: ${{ secrets.GITHUB_TOKEN }}
