@@ -41,3 +41,7 @@ jobs:
       with:
         branch: 'gh-pages'
 #        sha: '${{ github.event.pull_request.head.sha }}'
+    - name: checkout gh-pages branch
+      uses: actions/checkout@v3
+      with:
+        ref: gh-pages  
