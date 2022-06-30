@@ -23,21 +23,21 @@ jobs:
       run: |
         pwd
         ls
-        mv /home/runner/work/demo-publish-helm/demo-publish-helm/*.tgz  /home/runner/work/demo-publish-helm/helmapp        
+        mv /home/runner/work/helm-chart-demo/helm-chart-demo/*.tgz  /home/runner/work/helm-chart-demo/helmapp        
     - name: list contents of helmapp
       run: |
-        cd /home/runner/work/demo-publish-helm/helmapp
+        cd /home/runner/work/helm-chart-demo/helmapp
         ls
     - name: Create index file
-      run: helm repo index /home/runner/work/demo-publish-helm/helmapp
+      run: helm repo index /home/runner/work/helm-chart-demo/helmapp
     - name: list contents of helmapp
       run: |
-        cd /home/runner/work/demo-publish-helm/helmapp
+        cd /home/runner/work/helm-chart-demo/helmapp
         ls      
     - name: create a branch in my repo
       uses: peterjgrainger/action-create-branch@v2.2.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        branch: 'branch1'
+        branch: 'gh-pages'
 #        sha: '${{ github.event.pull_request.head.sha }}'
